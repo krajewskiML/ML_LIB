@@ -17,6 +17,8 @@ public:
 
     static Matrix multiply(const Matrix& first_matrix,const Matrix& second_matrix);
 
+    void multiplyInPlace(const Matrix& multiplied_by);
+
     void write(std::ostream &os) const;
 
     void transpose();

@@ -7,7 +7,7 @@
 
 Matrix::Matrix(int _rows, int _columns) {
 
-    assert(_rows != 0 and _columns != 0);
+    assert(_rows > 0 and _columns > 0);
 
     rows = _rows;
     columns = _columns;
@@ -87,7 +87,7 @@ void Matrix::operator=(const Matrix &_matrix) {
     for (i = 0; i < rows; ++i) {
         matrix[i] = new double[columns];
         for (j = 0; j < columns; ++j) {
-            matrix[i][j] = _matrix.matrix[i][j]; //random value for tests
+            matrix[i][j] = _matrix.matrix[i][j];
         }
     }
 }
@@ -99,6 +99,11 @@ Matrix::~Matrix() {
         delete[] matrix[i];
     }
     delete[] matrix;
+}
+
+void Matrix::multiplyInPlace(const Matrix &multiplied_by) {
+    assert(columns==multiplied_by.rows);
+    *this = multiply(*this, multiplied_by);
 }
 
 

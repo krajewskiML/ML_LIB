@@ -1,13 +1,11 @@
 #include <iostream>
 
 #include "Matrix.h"
-
+#include "mathFunctions.h"
 int main() {
+    std::cout<<DerivativeOfActivationFunction::sigmoid(1)<<" "
+    <<DerivativeOfActivationFunction::relu(2)<<" "
+    <<DerivativeOfActivationFunction::arctan(std::sqrt(3)/3);
 
-    Matrix jeden(4, 2);
-    Matrix dwa(2, 4);
-    jeden.write(std::cout);
-    jeden.multiplyInPlace(dwa);
-    jeden.write(std::cout);
     return 0;
 }

@@ -6,18 +6,22 @@
 #define ML_LIB_MATRIX_H
 
 #endif //ML_LIB_MATRIX_H
+
 #include <iostream>
 #include <cassert>
-class Matrix{
+#include <time.h>
+#include <random>
+
+class Matrix {
 public:
 
-    Matrix(int _rows, int _columns);
+    Matrix(int _rows, int _columns, double _min_val = 0, double _max_value = 0);
 
     Matrix transposed() const;
 
-    static Matrix multiply(const Matrix& first_matrix,const Matrix& second_matrix);
+    static Matrix multiply(const Matrix &first_matrix, const Matrix &second_matrix);
 
-    void multiplyInPlace(const Matrix& multiplied_by);
+    void multiplyInPlace(const Matrix &multiplied_by);
 
     void write(std::ostream &os) const;
 
@@ -29,10 +33,12 @@ public:
 
     int rank(); //not sure if needed
 
-    void operator = (const Matrix &_matrix);
+    void operator=(const Matrix &_matrix);
 
     ~Matrix();
+
 private:
+
     int rows, columns;
     double **matrix;
 

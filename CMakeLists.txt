@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 14)
 
 #include_directories(ML_LIB Matrix.h Matrix.cpp)
 
-add_executable(ML_LIB main.cpp Matrix.h Matrix.cpp)
+add_executable(ML_LIB main.cpp Matrix.h Matrix.cpp mathFunctions.cpp mathFunctions.h)

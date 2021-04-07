@@ -5,20 +5,31 @@
 
 #include "Matrix.h"
 
-Matrix::Matrix(int _rows, int _columns) {
+Matrix::Matrix(int _rows, int _columns, double _min_value, double _max_value) {
 
-    assert(_rows > 0 and _columns > 0);
+    assert(_rows > 0 and _columns > 0 and _max_value>=_min_value);
 
     rows = _rows;
     columns = _columns;
     matrix = new double *[rows];
     int i, j;
-    for (i = 0; i < rows; ++i) {
-        matrix[i] = new double[columns];
-        for (j = 0; j < columns; ++j) {
-            matrix[i][j] = i * 3 + j * 5; //random value for tests
+    if(_max_value == _min_value){
+        for (i = 0; i < rows; ++i) {
+            matrix[i] = new double[columns];
+            for (j = 0; j < columns; ++j) {
+                matrix[i][j] = _min_value;
+            }
+        }
+    }else{
+        srand(time(0));
+        for (i = 0; i < rows; ++i) {
+            matrix[i] = new double[columns];
+            for (j = 0; j < columns; ++j) {
+                matrix[i][j] = rand(); //TODO: create map function to make the rand() looks nice
+            }
         }
     }
+
 }
 
 Matrix Matrix::transposed() const {

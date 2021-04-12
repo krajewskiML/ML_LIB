@@ -3,9 +3,17 @@
 #include "Matrix.h"
 #include "mathFunctions.h"
 int main() {
-    std::cout<<DerivativeOfActivationFunction::sigmoid(1)<<" "
-    <<DerivativeOfActivationFunction::relu(2)<<" "
-    <<DerivativeOfActivationFunction::arctan(std::sqrt(3)/3);
+      double (*foo)(double);
+      foo = ActivationFunction::sigmoid;
+//    Matrix checker(1, 10, -2, 2);
+//    checker.write();
+//    Matrix result = Matrix::ApplyFunction(checker, foo);
+//    checker.write();
+//    result.write();
 
+    Matrix first(1, 10, -5, 5);
+    Matrix second = Matrix::ApplyFunction(first, foo);
+    first.write();
+    second.write();
     return 0;
 }

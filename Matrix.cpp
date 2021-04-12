@@ -7,25 +7,25 @@
 
 Matrix::Matrix(int _rows, int _columns, double _min_value, double _max_value) {
 
-    assert(_rows > 0 and _columns > 0 and _max_value>=_min_value);
+    assert(_rows > 0 and _columns > 0 and _max_value >= _min_value);
 
     rows = _rows;
     columns = _columns;
     matrix = new double *[rows];
     int i, j;
-    if(_max_value == _min_value){
+    if (_max_value == _min_value) {
         for (i = 0; i < rows; ++i) {
             matrix[i] = new double[columns];
             for (j = 0; j < columns; ++j) {
                 matrix[i][j] = _min_value;
             }
         }
-    }else{
-        srand(time(0));
+    } else {
+        srand(time(nullptr));
         for (i = 0; i < rows; ++i) {
             matrix[i] = new double[columns];
             for (j = 0; j < columns; ++j) {
-                matrix[i][j] = rand(); //TODO: create map function to make the rand() looks nice
+                matrix[i][j] = GeneralPurposeFunction::map(rand(), 0, RAND_MAX, _min_value, _max_value);
             }
         }
     }
@@ -64,6 +64,11 @@ Matrix Matrix::multiply(const Matrix &first_matrix, const Matrix &second_matrix)
     return *result;
 }
 
+void Matrix::multiplyInPlace(const Matrix &multiplied_by) {
+    assert(columns == multiplied_by.rows);
+    *this = multiply(*this, multiplied_by);
+}
+
 void Matrix::write(std::ostream &os) const {
     int i, j;
     for (i = 0; i < rows; i++) {
@@ -90,20 +95,6 @@ void Matrix::inverse() {
 
 }
 
-void Matrix::operator=(const Matrix &_matrix) {
-    rows = _matrix.rows;
-    columns = _matrix.columns;
-    matrix = new double *[rows];
-    int i, j;
-    for (i = 0; i < rows; ++i) {
-        matrix[i] = new double[columns];
-        for (j = 0; j < columns; ++j) {
-            matrix[i][j] = _matrix.matrix[i][j];
-        }
-    }
-}
-
-
 Matrix::~Matrix() {
     int i;
     for (i = 0; i < rows; ++i) {
@@ -112,10 +103,85 @@ Matrix::~Matrix() {
     delete[] matrix;
 }
 
-void Matrix::multiplyInPlace(const Matrix &multiplied_by) {
-    assert(columns==multiplied_by.rows);
-    *this = multiply(*this, multiplied_by);
+Matrix Matrix::VerticalStack(const Matrix &uppermatrix, const Matrix &lower_matrix) {
+
+    assert(uppermatrix.columns == lower_matrix.columns);
+
+
+    Matrix answer(uppermatrix.rows + lower_matrix.rows, uppermatrix.columns);
+
+    answer.PasteIntoInPlace(uppermatrix, 0, 0);
+    answer.PasteIntoInPlace(lower_matrix, uppermatrix.rows, 0);
+
+    return answer;
 }
+
+Matrix Matrix::PasteInto(const Matrix &pasted_into, const Matrix &being_pasted, int row_where, int col_where) {
+    assert(row_where + being_pasted.rows <= pasted_into.rows and
+           col_where + being_pasted.columns <= pasted_into.columns);
+    Matrix answer = pasted_into;
+    int i, j;
+    for (i = row_where; i < row_where + being_pasted.rows; i++) {
+        for (j = col_where; j < col_where + being_pasted.columns; j++) {
+            pasted_into.matrix[i][j] = being_pasted.matrix[i - row_where][j - col_where];
+        }
+    }
+    return answer;
+}
+
+void Matrix::PasteIntoInPlace(const Matrix &being_pasted, int row_where, int col_where) {
+
+    assert(row_where + being_pasted.rows <= rows and
+           col_where + being_pasted.columns <= columns);
+
+    int i, j;
+    for (i = row_where; i < row_where + being_pasted.rows; i++) {
+        for (j = col_where; j < col_where + being_pasted.columns; j++) {
+            matrix[i][j] = being_pasted.matrix[i - row_where][j - col_where];
+        }
+    }
+}
+
+Matrix Matrix::HorizontalStack(const Matrix &left_matrix, const Matrix &right_matrix) {
+
+    assert(left_matrix.rows == right_matrix.rows);
+
+    Matrix answer(left_matrix.rows, left_matrix.columns + right_matrix.rows);
+
+    answer.PasteIntoInPlace(left_matrix, 0, 0);
+    answer.PasteIntoInPlace(left_matrix, 0, left_matrix.columns);
+
+    return Matrix(0, 0);
+}
+
+Matrix Matrix::ApplyFunction(const Matrix &being_modified, double (*function)(double)) {
+
+    Matrix answer(being_modified);
+    std::cout<<answer.matrix<<" "<<being_modified.matrix<<'\n';
+    int i, j;
+
+    for (i = 0; i < answer.rows; i++) {
+        for (j = 0; j < answer.columns; j++) {
+            answer.matrix[i][j] = function(being_modified.matrix[i][j]);
+        }
+    }
+
+    return answer;
+}
+
+Matrix::Matrix(const Matrix &being_copied) {
+    rows = being_copied.rows;
+    columns = being_copied.columns;
+    matrix = new double* [rows];
+    int i, j;
+    for (i = 0; i < rows; ++i) {
+        matrix[i] = new double[columns];
+        for (j = 0; j < columns; ++j) {
+            matrix[i][j] = being_copied.matrix[i][j];
+        }
+    }
+}
+
 
 
 

@@ -11,19 +11,32 @@
 #include <cassert>
 #include <time.h>
 #include <random>
+#include "mathFunctions.h"
 
 class Matrix {
 public:
 
     Matrix(int _rows, int _columns, double _min_val = 0, double _max_value = 0);
 
+    Matrix(const Matrix& being_copied);
+
     Matrix transposed() const;
+
+    static Matrix VerticalStack(const Matrix &first_matrix, const Matrix &second_matrix);
+
+    static Matrix HorizontalStack(const Matrix &first_matrix, const Matrix &second_matrix);
 
     static Matrix multiply(const Matrix &first_matrix, const Matrix &second_matrix);
 
+    static Matrix PasteInto(const Matrix &pasted_into, const Matrix &being_pasted, int row_where, int col_where);
+
+    static Matrix ApplyFunction(const Matrix &being_modified, double (*function)(double));
+
     void multiplyInPlace(const Matrix &multiplied_by);
 
-    void write(std::ostream &os) const;
+    void PasteIntoInPlace(const Matrix &being_pasted, int row_where, int col_where);
+
+    void write(std::ostream &os = std::cout) const;
 
     void transpose();
 
@@ -33,11 +46,9 @@ public:
 
     int rank(); //not sure if needed
 
-    void operator=(const Matrix &_matrix);
-
     ~Matrix();
 
-private:
+//private:
 
     int rows, columns;
     double **matrix;

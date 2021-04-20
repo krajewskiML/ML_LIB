@@ -119,7 +119,7 @@ Matrix Matrix::VerticalStack(const Matrix &uppermatrix, const Matrix &lower_matr
 Matrix Matrix::PasteInto(const Matrix &pasted_into, const Matrix &being_pasted, int row_where, int col_where) {
     assert(row_where + being_pasted.rows <= pasted_into.rows and
            col_where + being_pasted.columns <= pasted_into.columns);
-    Matrix answer = pasted_into;
+    Matrix answer(pasted_into);
     int i, j;
     for (i = row_where; i < row_where + being_pasted.rows; i++) {
         for (j = col_where; j < col_where + being_pasted.columns; j++) {
@@ -154,10 +154,10 @@ Matrix Matrix::HorizontalStack(const Matrix &left_matrix, const Matrix &right_ma
     return Matrix(0, 0);
 }
 
+
 Matrix Matrix::ApplyFunction(const Matrix &being_modified, double (*function)(double)) {
 
     Matrix answer(being_modified);
-    std::cout<<answer.matrix<<" "<<being_modified.matrix<<'\n';
     int i, j;
 
     for (i = 0; i < answer.rows; i++) {
@@ -172,7 +172,7 @@ Matrix Matrix::ApplyFunction(const Matrix &being_modified, double (*function)(do
 Matrix::Matrix(const Matrix &being_copied) {
     rows = being_copied.rows;
     columns = being_copied.columns;
-    matrix = new double* [rows];
+    matrix = new double *[rows];
     int i, j;
     for (i = 0; i < rows; ++i) {
         matrix[i] = new double[columns];
@@ -180,6 +180,22 @@ Matrix::Matrix(const Matrix &being_copied) {
             matrix[i][j] = being_copied.matrix[i][j];
         }
     }
+}
+
+Matrix Matrix::GetSubMatrix(const Matrix &get_from, int start_row, int start_column, int end_row, int end_column) {
+
+    assert(start_row < end_row and start_column < end_column and start_row < get_from.rows and
+           end_row <= get_from.rows and start_column < get_from.columns and end_column <= get_from.columns and
+           start_column >= 0 and start_row >= 0);
+
+    Matrix answer(end_row - start_row, end_column - start_column);
+    int i, j;
+    for (i = 0; i < end_row - start_row; i++) {
+        for (j = 0; j < end_column - start_column; j++) {
+            answer.matrix[i][j] = get_from.matrix[i + start_row][j + start_column];
+        }
+    }
+    return answer;
 }
 
 

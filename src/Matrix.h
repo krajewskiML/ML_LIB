@@ -32,6 +32,10 @@ public:
 
     static Matrix ApplyFunction(const Matrix &being_modified, double (*function)(double));
 
+    //Last column and row are excluded from sub matrix
+
+    static Matrix GetSubMatrix(const Matrix &get_from, int start_row, int start_column, int end_row, int end_column);
+
     void multiplyInPlace(const Matrix &multiplied_by);
 
     void PasteIntoInPlace(const Matrix &being_pasted, int row_where, int col_where);
@@ -45,6 +49,13 @@ public:
     int determinant(); //not sure if needed
 
     int rank(); //not sure if needed
+
+    /*TODO:
+     * -overload +
+     * -overload -
+     * -MAYBE add_ones (bias to data)
+     */
+
 
     ~Matrix();
 

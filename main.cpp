@@ -2,10 +2,8 @@
 
 #include "src/Data.h"
 #include <fstream>
-
+#include "src/Regression.h"
 int main() {
-    std::ifstream file("heart.csv");
-    Data check(file);
-    check.show();
+
     return 0;
 }

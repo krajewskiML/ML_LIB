@@ -28,6 +28,12 @@ public:
 
     static Matrix multiply(const Matrix &first_matrix, const Matrix &second_matrix);
 
+    static Matrix add(const Matrix &first_matrix, const Matrix &second_matrix);
+
+    static Matrix substract(const Matrix &first_matrix, const Matrix &second_matrix);
+
+    static Matrix multiplyByScalar(const Matrix &first_matrix,const double scalar);
+
     static Matrix PasteInto(const Matrix &pasted_into, const Matrix &being_pasted, int row_where, int col_where);
 
     static Matrix ApplyFunction(const Matrix &being_modified, double (*function)(double));
@@ -51,6 +57,15 @@ public:
     int rank(); //not sure if needed
 
     void FromVector(std::vector<double> numbers, int rows, int columns);
+
+    Matrix operator *(const Matrix &multiplied_by) const;
+
+    Matrix operator +(const Matrix &added) const;
+
+    Matrix operator -(const Matrix &substracted) const;
+
+    Matrix operator *(double scalar) const;
+
 
     /*TODO:
      * -overload +

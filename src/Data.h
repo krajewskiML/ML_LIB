@@ -15,11 +15,11 @@ public:
     void show(std::ostream &os=std::cout);
     ~Data();
 
+    Matrix *matrix_representation;
 private:
     void readHeaders(std::istream& csv_file);
     void readData(std::istream& csv_file);
     std::vector<std::string> headers;
-    Matrix *matrix_representation;
 };
 
 

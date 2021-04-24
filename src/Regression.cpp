@@ -6,13 +6,7 @@
 
 Matrix Regression::hypothesis(const Data &data) {
     assert(predictor!= nullptr);
-
-    return Matrix();
-}
-
-Matrix Regression::addOnes(Matrix &data) {
-    Matrix ones(data.rows, 1, 1, 1), ans = Matrix::HorizontalStack(data, ones);
-    return ans;
+    return (*data.matrix_representation)*(*predictor);
 }
 
 void Regression::show(std::ostream &out) const {

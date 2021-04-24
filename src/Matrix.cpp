@@ -199,7 +199,7 @@ Matrix Matrix::GetSubMatrix(const Matrix &get_from, int start_row, int start_col
 }
 
 void Matrix::FromVector(const std::vector<double> numbers, int _rows, int _columns) {
-    assert(_rows>0 and _columns>0 and _rows*_columns==numbers.size());
+    assert(_rows > 0 and _columns > 0 and _rows * _columns == numbers.size());
     rows = _rows;
     columns = _columns;
     matrix = new double *[rows];
@@ -207,10 +207,66 @@ void Matrix::FromVector(const std::vector<double> numbers, int _rows, int _colum
     for (i = 0; i < rows; ++i) {
         matrix[i] = new double[columns];
         for (j = 0; j < columns; ++j) {
-            matrix[i][j] = numbers[i*columns+j];
+            matrix[i][j] = numbers[i * columns + j];
         }
     }
 }
+
+Matrix Matrix::add(const Matrix &first_matrix, const Matrix &second_matrix) {
+    assert(first_matrix.rows == second_matrix.rows and first_matrix.columns == second_matrix.columns);
+    Matrix answer(first_matrix);
+    int i, j;
+    for (i = 0; i < answer.rows; i++) {
+        for (j = 0; j < answer.columns; j++) {
+            answer.matrix[i][j] += second_matrix.matrix[i][j];
+        }
+    }
+    return answer;
+}
+
+Matrix Matrix::substract(const Matrix &first_matrix, const Matrix &second_matrix) {
+    assert(first_matrix.rows == second_matrix.rows and first_matrix.columns == second_matrix.columns);
+    Matrix answer(first_matrix);
+    int i, j;
+    for (i = 0; i < answer.rows; i++) {
+        for (j = 0; j < answer.columns; j++) {
+            answer.matrix[i][j] -= second_matrix.matrix[i][j];
+        }
+    }
+    return answer;
+}
+
+Matrix Matrix::multiplyByScalar(const Matrix &first_matrix, const double scalar) {
+    Matrix answer(first_matrix);
+    int i, j;
+    for (i = 0; i < answer.rows; i++) {
+        for (j = 0; j < answer.columns; j++) {
+            answer.matrix[i][j] *= scalar;
+        }
+    }
+    return answer;
+}
+
+Matrix Matrix::operator*(const Matrix &multiplied_by) const {
+    return multiply(*this, multiplied_by);
+}
+
+Matrix Matrix::operator+(const Matrix &added) const {
+    return add(*this, added);
+}
+
+Matrix Matrix::operator-(const Matrix &substracted) const {
+    return substract(*this, substracted);
+}
+
+Matrix Matrix::operator*(double scalar) const {
+    return multiplyByScalar(*this, scalar);
+}
+
+
+
+
+
 
 
 

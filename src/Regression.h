@@ -10,9 +10,8 @@
 class Regression : public SupervisedModel {
 
     void show(std::ostream &out=std::cout)const;
-private:
     Matrix hypothesis(const Data &data);
-    Matrix addOnes(Matrix& data);
+private:
     Matrix *predictor;
     double (*error)(double label, double prediction), (*error_derivative)(double label, double prediction);
 

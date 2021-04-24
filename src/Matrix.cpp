@@ -198,6 +198,22 @@ Matrix Matrix::GetSubMatrix(const Matrix &get_from, int start_row, int start_col
     return answer;
 }
 
+void Matrix::FromVector(const std::vector<double> numbers, int _rows, int _columns) {
+    assert(_rows>0 and _columns>0 and _rows*_columns==numbers.size());
+    rows = _rows;
+    columns = _columns;
+    matrix = new double *[rows];
+    int i, j;
+    for (i = 0; i < rows; ++i) {
+        matrix[i] = new double[columns];
+        for (j = 0; j < columns; ++j) {
+            matrix[i][j] = numbers[i*columns+j];
+        }
+    }
+}
+
+
+
 
 
 

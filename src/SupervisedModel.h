@@ -6,14 +6,14 @@
 #define ML_LIB_SUPERVISEDMODEL_H
 
 #include "Model.h"
-
+#include "Data.h"
 class SupervisedModel : public Model {
 public:
-    virtual void fit(const Matrix &data, const Matrix &label, double learning_rate) = 0;
+    virtual void fit(const Data &data, const Data &label, double learning_rate, int epochs) = 0;
 
-    virtual Matrix predict(const Matrix &data) const = 0;
+    virtual Matrix predict(const Data &data) const = 0;
 
-    virtual void test(const Matrix &data, const Matrix &label) const = 0;
+    virtual void test(const Data &data, const Data &label) const = 0;
 };
 
 

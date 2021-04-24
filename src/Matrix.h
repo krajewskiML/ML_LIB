@@ -16,7 +16,7 @@
 class Matrix {
 public:
 
-    Matrix(int _rows, int _columns, double _min_val = 0, double _max_value = 0);
+    Matrix(int _rows=1, int _columns=1, double _min_val = 0, double _max_value = 0);
 
     Matrix(const Matrix& being_copied);
 
@@ -49,6 +49,8 @@ public:
     int determinant(); //not sure if needed
 
     int rank(); //not sure if needed
+
+    void FromVector(std::vector<double> numbers, int rows, int columns);
 
     /*TODO:
      * -overload +

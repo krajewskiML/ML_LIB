@@ -5,7 +5,7 @@
 #ifndef ML_LIB_MODEL_H
 #define ML_LIB_MODEL_H
 
-#include "Matrix.h"
+
 #include <cassert>
 #include <iostream>
 class Model {

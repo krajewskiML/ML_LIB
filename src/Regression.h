@@ -8,11 +8,12 @@
 #include "SupervisedModel.h"
 
 class Regression : public SupervisedModel {
+
     void show(std::ostream &out=std::cout)const;
 private:
-    Matrix hypothesis(const Matrix &data);
+    Matrix hypothesis(const Data &data);
     Matrix addOnes(Matrix& data);
-    Matrix *predictor= nullptr;
+    Matrix *predictor;
     double (*error)(double label, double prediction), (*error_derivative)(double label, double prediction);
 
 };

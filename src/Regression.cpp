@@ -4,9 +4,10 @@
 
 #include "Regression.h"
 
-Matrix Regression::hypothesis(const Matrix &data) {
+Matrix Regression::hypothesis(const Data &data) {
     assert(predictor!= nullptr);
-    return Matrix::multiply(data, *predictor);
+
+    return Matrix();
 }
 
 Matrix Regression::addOnes(Matrix &data) {

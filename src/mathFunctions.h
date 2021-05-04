@@ -11,7 +11,7 @@
 #include "math.h"
 #include <cassert>
 
-namespace ActivationFunction {
+namespace ActivationFunction { //lets go with templates maybe
     double sigmoid(double val);
 
     double relu(double val);

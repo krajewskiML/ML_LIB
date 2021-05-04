@@ -26,8 +26,7 @@ void Data::readData(std::istream &csv_file) {
         }
         line_counter++;
     }
-    matrix_representation->FromVector(all_numbers, line_counter, headers.size());
-    std::cout << matrix_representation->rows << " " << matrix_representation->columns;
+    matrix_representation = new Matrix(all_numbers, line_counter, headers.size());
 }
 
 Data::Data(std::istream &file) {
@@ -35,7 +34,12 @@ Data::Data(std::istream &file) {
     readData(file);
 }
 
-Data::~Data() = default;
+Data::~Data() {
+    if(matrix_representation!= nullptr){
+        delete matrix_representation;
+    }
+}
+
 
 void Data::show(std::ostream &os) {
     for (const auto &header : headers) {

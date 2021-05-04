@@ -4,6 +4,5 @@
 
 #include "PolynomialRegression.h"
 
-PolynomialRegression::PolynomialRegression(int _degree) {
-    degree=_degree;
+PolynomialRegression::PolynomialRegression(int _degree) : Regression(_degree){
 }

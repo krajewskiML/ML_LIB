@@ -14,8 +14,8 @@ public:
     Data(std::istream &file);
     void show(std::ostream &os=std::cout);
     ~Data();
-
-    Matrix *matrix_representation;
+    Matrix *matrix_representation=nullptr;
+    int records, variables;
 private:
     void readHeaders(std::istream& csv_file);
     void readData(std::istream& csv_file);

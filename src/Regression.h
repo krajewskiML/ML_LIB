@@ -7,13 +7,24 @@
 
 #include "SupervisedModel.h"
 
-class Regression : public SupervisedModel {
+class Regression  {
 
+
+public:
+    Regression(int _polynomial_degree);
     void show(std::ostream &out=std::cout)const;
+    void fit(const Data &data, const Data &label, double learning_rate, int epochs);
     Matrix hypothesis(const Data &data);
+    ~Regression();
+
 private:
-    Matrix *predictor;
+    int polynomial_degree;
+    Matrix *hypothesis_matrix;
+    void createHypothesis(const Matrix &final_data);
+    int numberOfParameters()const;
+    Matrix prepareData(Data &data) const;
     double (*error)(double label, double prediction), (*error_derivative)(double label, double prediction);
+    void gradientDescent(const Matrix &data, const Matrix &label, double learning_rate);
 
 };
 

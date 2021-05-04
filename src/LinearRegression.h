@@ -5,8 +5,10 @@
 #ifndef ML_LIB_LINEARREGRESSION_H
 #define ML_LIB_LINEARREGRESSION_H
 
-
-class LinearRegression {
+#include "Regression.h"
+class LinearRegression : public Regression{
+    LinearRegression();
+    //void fit(const Data &data, const Data &label, double learning_rate, int epochs);
 
 };
 

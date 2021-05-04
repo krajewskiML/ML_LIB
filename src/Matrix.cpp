@@ -21,7 +21,6 @@ Matrix::Matrix(int _rows, int _columns, double _min_value, double _max_value) {
             }
         }
     } else {
-        srand(time(nullptr));
         for (i = 0; i < rows; ++i) {
             matrix[i] = new double[columns];
             for (j = 0; j < columns; ++j) {
@@ -29,7 +28,6 @@ Matrix::Matrix(int _rows, int _columns, double _min_value, double _max_value) {
             }
         }
     }
-
 }
 
 Matrix Matrix::transposed() const {
@@ -107,7 +105,6 @@ Matrix Matrix::VerticalStack(const Matrix &uppermatrix, const Matrix &lower_matr
 
     assert(uppermatrix.columns == lower_matrix.columns);
 
-
     Matrix answer(uppermatrix.rows + lower_matrix.rows, uppermatrix.columns);
 
     answer.PasteIntoInPlace(uppermatrix, 0, 0);
@@ -130,7 +127,6 @@ Matrix Matrix::PasteInto(const Matrix &pasted_into, const Matrix &being_pasted, 
 }
 
 void Matrix::PasteIntoInPlace(const Matrix &being_pasted, int row_where, int col_where) {
-
     assert(row_where + being_pasted.rows <= rows and
            col_where + being_pasted.columns <= columns);
 
@@ -151,7 +147,7 @@ Matrix Matrix::HorizontalStack(const Matrix &left_matrix, const Matrix &right_ma
     answer.PasteIntoInPlace(left_matrix, 0, 0);
     answer.PasteIntoInPlace(left_matrix, 0, left_matrix.columns);
 
-    return Matrix(0, 0);
+    return answer;
 }
 
 
@@ -198,7 +194,7 @@ Matrix Matrix::GetSubMatrix(const Matrix &get_from, int start_row, int start_col
     return answer;
 }
 
-void Matrix::FromVector(const std::vector<double> numbers, int _rows, int _columns) {
+Matrix::Matrix(const std::vector<double> numbers, int _rows, int _columns) {
     assert(_rows > 0 and _columns > 0 and _rows * _columns == numbers.size());
     rows = _rows;
     columns = _columns;
@@ -262,6 +258,81 @@ Matrix Matrix::operator-(const Matrix &substracted) const {
 Matrix Matrix::operator*(double scalar) const {
     return multiplyByScalar(*this, scalar);
 }
+
+Matrix Matrix::elementsToPower(Matrix &modified, int power) {
+    Matrix answer(modified);
+    for (int i = 0; i < answer.rows; i++) {
+        for (int j = 0; j < answer.columns; j++) {
+            answer.matrix[i][j] = std::pow(answer.matrix[i][j], power);
+        }
+    }
+    return answer;
+}
+
+
+Matrix Matrix::multiplyElementWise(const Matrix &first_matrix, const Matrix &second_matrix) {
+    assert(first_matrix.rows == second_matrix.rows and first_matrix.columns == second_matrix.columns);
+    Matrix answer(first_matrix);
+    int i, j;
+    for(i=0; i<answer.rows; i++){
+        for(j=0; j<answer.columns; j++){
+            answer.matrix[i][j]*=second_matrix.matrix[i][j];
+        }
+    }
+    return answer;
+}
+
+Matrix Matrix::operator^(double scalar) {
+    Matrix answer(*this);
+    int i, j;
+    for(i=0; i<answer.rows; i++){
+        for(j=0; j<answer.columns; j++){
+            answer.matrix[i][j]= std::pow(answer.matrix[i][j], scalar);
+        }
+    }
+    return answer;
+}
+
+void Matrix::showDimensions(std::ostream &os) {
+    os<<rows<<' '<<columns<<'\n';
+}
+
+void Matrix::operator-=(const Matrix &substracted) {
+    assert(rows == substracted.rows and columns == substracted.columns);
+    int i, j;
+    for(i=0; i<rows; i++){
+        for(j=0; j<columns; j++){
+            matrix[i][j]-=substracted.matrix[i][j];
+        }
+    }
+}
+
+void Matrix::operator*=(double scalar) {
+    int i, j;
+    for(i=0; i<rows; i++){
+        for(j=0; j<columns; j++){
+            matrix[i][j]*=scalar;
+        }
+    }
+}
+
+void Matrix::operator+=(const Matrix &added) {
+    assert(rows == added.rows and columns == added.columns);
+    int i, j;
+    for(i=0; i<rows; i++){
+        for(j=0; j<columns; j++){
+            matrix[i][j]+=added.matrix[i][j];
+        }
+    }
+}
+
+
+
+
+
+
+
+
 
 
 

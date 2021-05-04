@@ -16,9 +16,11 @@
 class Matrix {
 public:
 
-    Matrix(int _rows=1, int _columns=1, double _min_val = 0, double _max_value = 0);
+    Matrix(int _rows = 1, int _columns = 1, double _min_val = 0, double _max_value = 0);
 
-    Matrix(const Matrix& being_copied);
+    Matrix(const Matrix &being_copied);
+
+    Matrix(std::vector<double> numbers, int rows, int columns);
 
     Matrix transposed() const;
 
@@ -32,22 +34,24 @@ public:
 
     static Matrix substract(const Matrix &first_matrix, const Matrix &second_matrix);
 
-    static Matrix multiplyByScalar(const Matrix &first_matrix,const double scalar);
+    static Matrix multiplyByScalar(const Matrix &first_matrix, const double scalar);
+
+    static Matrix multiplyElementWise(const Matrix &first_matrix, const Matrix &second_matrix);
 
     static Matrix PasteInto(const Matrix &pasted_into, const Matrix &being_pasted, int row_where, int col_where);
 
     static Matrix ApplyFunction(const Matrix &being_modified, double (*function)(double));
 
-    //Last column and row are excluded from sub matrix
-
     static Matrix GetSubMatrix(const Matrix &get_from, int start_row, int start_column, int end_row, int end_column);
+
+    static Matrix elementsToPower(Matrix &modified, int power); //may delete that later
 
     void multiplyInPlace(const Matrix &multiplied_by);
 
     void PasteIntoInPlace(const Matrix &being_pasted, int row_where, int col_where);
 
     void write(std::ostream &os = std::cout) const;
-
+    
     void transpose();
 
     void inverse(); //not sure if needed
@@ -56,20 +60,26 @@ public:
 
     int rank(); //not sure if needed
 
-    void FromVector(std::vector<double> numbers, int rows, int columns);
+    void showDimensions(std::ostream &os = std::cout);
 
-    Matrix operator *(const Matrix &multiplied_by) const;
+    void operator-=(const Matrix &substracted);
 
-    Matrix operator +(const Matrix &added) const;
+    void operator+=(const Matrix &added);
 
-    Matrix operator -(const Matrix &substracted) const;
+    void operator*=(double scalar);
 
-    Matrix operator *(double scalar) const;
+    Matrix operator*(const Matrix &multiplied_by) const;
+
+    Matrix operator+(const Matrix &added) const;
+
+    Matrix operator-(const Matrix &substracted) const;
+
+    Matrix operator*(double scalar) const;
+
+    Matrix operator^(double scalar);
 
 
     /*TODO:
-     * -overload +
-     * -overload -
      * -MAYBE add_ones (bias to data)
      */
 

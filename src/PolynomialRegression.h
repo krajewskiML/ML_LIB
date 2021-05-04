@@ -10,8 +10,7 @@
 class PolynomialRegression : public Regression {
 public:
     PolynomialRegression(int _degree=2);
-private:
-    int degree;
+
 };
 
 

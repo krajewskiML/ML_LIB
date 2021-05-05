@@ -22,17 +22,18 @@ void Regression::fit(const Data &data, const Data &label, double learning_rate, 
     createHypothesis(prepared_data);
     //will stick to gradient descent for now
     for(int epoch=1; epoch<=epochs; epoch++){
+        std::cout<<epoch<<": ";
         gradientDescent(prepared_data, labels, learning_rate);
-        hypothesis_matrix->write();
-        std::cout<<"elo\n";
+        //hypothesis_matrix->write();
     }
 
 }
 
 void Regression::gradientDescent(const Matrix &data, const Matrix &label, double learning_rate) {
     Matrix guess = data*(*hypothesis_matrix);
-    guess.write();
-    (*hypothesis_matrix)-=(data.transposed())*(guess-label)*learning_rate*(1.0/data.rows);
+    Matrix error = guess-label;
+    std::cout<<error.sum()<<'\n';
+    (*hypothesis_matrix)-=(data.transposed())*error*learning_rate*(1.0/data.rows);
 }
 
 int Regression::numberOfParameters() const {

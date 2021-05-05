@@ -9,6 +9,6 @@ int main() {
     std::fstream labels("linear_regression_labels.csv");
     Data dane(data);
     Data oznaczenia(labels);
-    model.fit(dane, dane, 0.001, 20);
+    model.fit(dane, oznaczenia, 0.00000003, 10000000);
 
 }

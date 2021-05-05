@@ -48,10 +48,12 @@ public:
 
     void multiplyInPlace(const Matrix &multiplied_by);
 
+    double sum();
+
     void PasteIntoInPlace(const Matrix &being_pasted, int row_where, int col_where);
 
     void write(std::ostream &os = std::cout) const;
-    
+
     void transpose();
 
     void inverse(); //not sure if needed

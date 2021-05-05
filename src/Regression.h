@@ -6,7 +6,7 @@
 #define ML_LIB_REGRESSION_H
 
 #include "SupervisedModel.h"
-
+#include "bits/stdc++.h"
 class Regression  {
 
 
@@ -23,7 +23,7 @@ private:
     void createHypothesis(const Matrix &final_data);
     int numberOfParameters()const;
     Matrix prepareData(Data &data) const;
-    double (*error)(double label, double prediction), (*error_derivative)(double label, double prediction);
+    double (*error_measurment)(double label, double prediction), (*error_derivative)(double label, double prediction);
     void gradientDescent(const Matrix &data, const Matrix &label, double learning_rate);
 
 };

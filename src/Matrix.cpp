@@ -32,34 +32,32 @@ Matrix::Matrix(int _rows, int _columns, double _min_value, double _max_value) {
 
 Matrix Matrix::transposed() const {
 
-    Matrix *returned;
-    returned = new Matrix(columns, rows);
+    Matrix returned(columns, rows);
 
     int i, j;
 
     for (i = 0; i < rows; i++) {
         for (j = 0; j < columns; j++) {
-            returned->matrix[j][i] = matrix[i][j];
+            returned.matrix[j][i] = matrix[i][j];
         }
     }
-    return *returned;
+    return returned;
 }
 
 Matrix Matrix::multiply(const Matrix &first_matrix, const Matrix &second_matrix) {
 
     assert(first_matrix.columns == second_matrix.rows);
-    Matrix *result;
-    result = new Matrix(first_matrix.rows, second_matrix.columns);
+    Matrix result(first_matrix.rows, second_matrix.columns);
     int i, j, k;
-    for (i = 0; i < result->rows; ++i) {
-        for (j = 0; j < result->columns; ++j) {
-            result->matrix[i][j] = 0;
+    for (i = 0; i < result.rows; ++i) {
+        for (j = 0; j < result.columns; ++j) {
+            result.matrix[i][j] = 0;
             for (k = 0; k < first_matrix.columns; ++k) {
-                result->matrix[i][j] += first_matrix.matrix[i][k] * second_matrix.matrix[k][j];
+                result.matrix[i][j] += first_matrix.matrix[i][k] * second_matrix.matrix[k][j];
             }
         }
     }
-    return *result;
+    return result;
 }
 
 void Matrix::multiplyInPlace(const Matrix &multiplied_by) {
@@ -316,7 +314,7 @@ void Matrix::operator*=(double scalar) {
     }
 }
 
-void Matrix::operator+=(const Matrix &added) {
+void Matrix::operator+=(const Matrix &added){
     assert(rows == added.rows and columns == added.columns);
     int i, j;
     for(i=0; i<rows; i++){
@@ -324,6 +322,17 @@ void Matrix::operator+=(const Matrix &added) {
             matrix[i][j]+=added.matrix[i][j];
         }
     }
+}
+
+double Matrix::sum() {
+    double sum=0;
+    int i, j;
+    for(i=0; i<rows; i++){
+        for(j=0; j<columns; j++){
+            sum+=std::abs(matrix[i][j]);
+        }
+    }
+    return sum;
 }
 
 

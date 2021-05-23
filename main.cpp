@@ -3,12 +3,18 @@
 #include "src/Data.h"
 #include <fstream>
 #include "src/Regression.h"
+#include "src/LinearRegression.h"
+#include "src/PolynomialRegression.h"
+#include <time.h>
+
 int main() {
-    Regression model(2);
+    LinearRegression model;
     std::fstream data("data.csv");
     std::fstream labels("linear_regression_labels.csv");
     Data dane(data);
     Data oznaczenia(labels);
-    model.fit(dane, oznaczenia, 0.00000003, 10000000);
 
+    model.fit(dane, oznaczenia, 0.0000003, 10000);
+    model.test(dane, oznaczenia);
+    return 0;
 }

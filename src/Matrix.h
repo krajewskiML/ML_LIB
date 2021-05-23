@@ -22,6 +22,8 @@ public:
 
     Matrix(std::vector<double> numbers, int rows, int columns);
 
+    Matrix(std::istream &is);
+
     Matrix transposed() const;
 
     static Matrix VerticalStack(const Matrix &first_matrix, const Matrix &second_matrix);
@@ -53,6 +55,8 @@ public:
     void PasteIntoInPlace(const Matrix &being_pasted, int row_where, int col_where);
 
     void write(std::ostream &os = std::cout) const;
+
+    void save(std::ostream &os) const;
 
     void transpose();
 

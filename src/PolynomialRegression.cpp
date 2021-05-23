@@ -6,3 +6,4 @@
 
 PolynomialRegression::PolynomialRegression(int _degree) : Regression(_degree){
 }
+PolynomialRegression::~PolynomialRegression() = default;

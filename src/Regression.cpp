@@ -4,11 +4,11 @@
 
 #include "Regression.h"
 
-Matrix Regression::hypothesis(const Data &data) {
+Matrix Regression::predict(const Data &data) const {
     assert(hypothesis_matrix != nullptr);
-    return (*data.matrix_representation) * (*hypothesis_matrix);
+    Matrix prepared_data = prepareData(const_cast<Data &>(data));
+    return prepared_data * (*hypothesis_matrix);
 }
-
 
 void Regression::show(std::ostream &out) const {
     out << "Model has " << this->numberOfParameters() << " parameters" << '\n';
@@ -19,21 +19,25 @@ Regression::Regression(int _polynomial_degree) : polynomial_degree(_polynomial_d
 
 void Regression::fit(const Data &data, const Data &label, double learning_rate, int epochs) {
     Matrix prepared_data = prepareData(const_cast<Data &>(data)), labels = *label.matrix_representation;
-    createHypothesis(prepared_data);
-    //will stick to gradient descent for now
-    for(int epoch=1; epoch<=epochs; epoch++){
-        std::cout<<epoch<<": ";
-        gradientDescent(prepared_data, labels, learning_rate);
-        //hypothesis_matrix->write();
+    if(hypothesis_matrix->rows != prepared_data.columns or hypothesis_matrix->columns != 1){
+        createHypothesis(prepared_data);
     }
-
+    //will stick to gradient descent for now
+    for (int epoch = 1; epoch <= epochs; epoch++) {
+        //std::cout<<"epoch:" << epoch << " cost: ";
+        gradientDescent(prepared_data, labels, learning_rate);
+    }
 }
 
 void Regression::gradientDescent(const Matrix &data, const Matrix &label, double learning_rate) {
-    Matrix guess = data*(*hypothesis_matrix);
-    Matrix error = guess-label;
-    std::cout<<error.sum()<<'\n';
-    (*hypothesis_matrix)-=(data.transposed())*error*learning_rate*(1.0/data.rows);
+    Matrix guess = predict(data);
+    Matrix error = guess - label;
+    //std::cout << cost(guess, label) << '\n';
+    (*hypothesis_matrix) -= (data.transposed()) * error * learning_rate * (1.0 / data.rows);
+}
+
+double Regression::cost(const Matrix &guess, const Matrix &labels) const {
+    return ((guess - labels) ^ 2).sum();
 }
 
 int Regression::numberOfParameters() const {
@@ -62,6 +66,22 @@ void Regression::createHypothesis(const Matrix &final_data) {
     hypothesis_matrix = new Matrix(final_data.columns, 1, -1, 1);
 }
 
+Matrix Regression::predict(const Matrix &data) {
+    return data * (*hypothesis_matrix);
+}
+
+void Regression::save(std::ostream &os) const {
+    hypothesis_matrix->save(os);
+}
+
+void Regression::read(std::istream &is) {
+    hypothesis_matrix = new Matrix(is);
+}
+
+void Regression::test(const Data &data,const Data &label) const {
+    Matrix guess = predict(data);
+    std::cout<<std::fixed<<cost(guess, (*label.matrix_representation))<<'\n';
+}
 
 
 Regression::~Regression() = default;

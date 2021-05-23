@@ -7,9 +7,9 @@
 
 #include "Regression.h"
 class LinearRegression : public Regression{
+public:
     LinearRegression();
-    //void fit(const Data &data, const Data &label, double learning_rate, int epochs);
-
+    ~LinearRegression();
 };
 
 

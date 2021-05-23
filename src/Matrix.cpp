@@ -335,6 +335,23 @@ double Matrix::sum() {
     return sum;
 }
 
+void Matrix::save(std::ostream &os) const {
+    os<<rows<<' '<<columns<<'\n';
+    write(os);
+}
+
+Matrix::Matrix(std::istream &is) {
+    is>>rows>>columns;
+    int i, j;
+    matrix = new double *[rows];
+    for (i = 0; i < rows; ++i) {
+        matrix[i] = new double[columns];
+        for (j = 0; j < columns; ++j) {
+            is>>matrix[i][j];
+        }
+    }
+}
+
 
 
 

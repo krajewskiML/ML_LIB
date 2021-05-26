@@ -9,16 +9,26 @@
 #include "Matrix.h"
 #include <iostream>
 #include <sstream>
+
 class Data{
+    friend class Matrix;
 public:
     Data(std::istream &file);
-    void show(std::ostream &os=std::cout);
+
     ~Data();
-    Matrix *matrix_representation=nullptr;
+
+    void show(std::ostream &os = std::cout);
+
+    Matrix labelsToMatrix() const;
+
     int records, variables;
+    Matrix *matrix_representation = nullptr;
 private:
-    void readHeaders(std::istream& csv_file);
-    void readData(std::istream& csv_file);
+    void readHeaders(std::istream &csv_file);
+
+    void readData(std::istream &csv_file);
+
+
     std::vector<std::string> headers;
 };
 

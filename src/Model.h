@@ -8,6 +8,7 @@
 
 #include <cassert>
 #include <iostream>
+#include "mathFunctions.h"
 class Model {
 public:
     virtual void show(std::ostream &out=std::cout) const = 0;

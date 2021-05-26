@@ -6,7 +6,7 @@
 
 Matrix Regression::predict(const Data &data) const {
     assert(hypothesis_matrix != nullptr);
-    Matrix prepared_data = prepareData(const_cast<Data &>(data));
+    Matrix prepared_data = prepareData(data);
     return prepared_data * (*hypothesis_matrix);
 }
 
@@ -18,21 +18,19 @@ Regression::Regression(int _polynomial_degree) : polynomial_degree(_polynomial_d
 }
 
 void Regression::fit(const Data &data, const Data &label, double learning_rate, int epochs) {
-    Matrix prepared_data = prepareData(const_cast<Data &>(data)), labels = *label.matrix_representation;
+    Matrix prepared_data = prepareData(data), labels = *label.matrix_representation;
     if(hypothesis_matrix->rows != prepared_data.columns or hypothesis_matrix->columns != 1){
         createHypothesis(prepared_data);
     }
     //will stick to gradient descent for now
-    for (int epoch = 1; epoch <= epochs; epoch++) {
-        //std::cout<<"epoch:" << epoch << " cost: ";
+    for (int epoch = 0; epoch < epochs; epoch++) {
         gradientDescent(prepared_data, labels, learning_rate);
     }
 }
 
 void Regression::gradientDescent(const Matrix &data, const Matrix &label, double learning_rate) {
-    Matrix guess = predict(data);
+    Matrix guess = applyHypothesis(data);
     Matrix error = guess - label;
-    //std::cout << cost(guess, label) << '\n';
     (*hypothesis_matrix) -= (data.transposed()) * error * learning_rate * (1.0 / data.rows);
 }
 
@@ -45,7 +43,7 @@ int Regression::numberOfParameters() const {
     return hypothesis_matrix->rows * hypothesis_matrix->columns;
 }
 
-Matrix Regression::prepareData(Data &data) const {
+Matrix Regression::prepareData(const Data &data) const {
     if (polynomial_degree == 0) {
         return Matrix(data.matrix_representation->rows, 1, 1, 1);
     }
@@ -66,7 +64,7 @@ void Regression::createHypothesis(const Matrix &final_data) {
     hypothesis_matrix = new Matrix(final_data.columns, 1, -1, 1);
 }
 
-Matrix Regression::predict(const Matrix &data) {
+Matrix Regression::applyHypothesis(const Matrix &data) const {
     return data * (*hypothesis_matrix);
 }
 

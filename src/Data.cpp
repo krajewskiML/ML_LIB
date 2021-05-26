@@ -35,9 +35,7 @@ Data::Data(std::istream &file) {
 }
 
 Data::~Data() {
-    if(matrix_representation!= nullptr){
-        delete matrix_representation;
-    }
+    delete matrix_representation;
 }
 
 
@@ -47,6 +45,15 @@ void Data::show(std::ostream &os) {
     }
     os << '\n';
     matrix_representation->write(os);
+}
+
+Matrix Data::labelsToMatrix() const{
+    int num_of_classes = matrix_representation->maxValue();
+    Matrix labelsMatrix(records, num_of_classes+1);
+    for(int i=0; i<records; i++){
+        labelsMatrix(i,(int)matrix_representation->matrix[i][0])=1;
+    }
+    return labelsMatrix;
 }
 
 

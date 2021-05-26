@@ -24,27 +24,29 @@ public:
 
     void read(std::istream &is);
 
-    void test(const Data &data, const Data &label)const ;
+    void test(const Data &data, const Data &label) const;
 
     ~Regression();
 
-private:
+
+protected:
+    Matrix prepareData(const Data &data) const;
+
+    Matrix applyHypothesis(const Matrix &data) const;
+
+    void gradientDescent(const Matrix &data, const Matrix &label, double learning_rate);
+
     double cost(const Matrix &guess, const Matrix &labels) const;
-
-    int polynomial_degree;
-    Matrix *hypothesis_matrix;
-
-    Matrix predict(const Matrix &data) const;
 
     void createHypothesis(const Matrix &final_data);
 
     int numberOfParameters() const;
 
-    Matrix prepareData(Data &data) const;
+    Matrix *hypothesis_matrix;
 
-    void gradientDescent(const Matrix &data, const Matrix &label, double learning_rate);
+    int polynomial_degree;
 
-    Matrix predict(const Matrix &data);
+
 };
 
 

@@ -11,14 +11,18 @@
 #include <sstream>
 
 class Data{
-    friend class Matrix;
+    ///Data class is a simple csv reader and is able to store only numerical values
+
 public:
+    friend class Matrix;
+    //creates data class from csv file
     Data(std::istream &file);
 
     ~Data();
-
+    //writes data to ostream
     void show(std::ostream &os = std::cout);
 
+    //creates matrix of 0 and places 1 in column of label index from vector
     Matrix labelsToMatrix() const;
 
     int records, variables;
@@ -27,7 +31,6 @@ private:
     void readHeaders(std::istream &csv_file);
 
     void readData(std::istream &csv_file);
-
 
     std::vector<std::string> headers;
 };

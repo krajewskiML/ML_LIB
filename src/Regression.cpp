@@ -11,7 +11,7 @@ Matrix Regression::predict(const Data &data) const {
 }
 
 void Regression::show(std::ostream &out) const {
-    out << "Model has " << this->numberOfParameters() << " parameters" << '\n';
+    out << "Model has " << numberOfParameters() << " parameters" << '\n';
 }
 
 Regression::Regression(int _polynomial_degree) : polynomial_degree(_polynomial_degree) {
@@ -19,7 +19,7 @@ Regression::Regression(int _polynomial_degree) : polynomial_degree(_polynomial_d
 
 void Regression::fit(const Data &data, const Data &label, double learning_rate, int epochs) {
     Matrix prepared_data = prepareData(data), labels = *label.matrix_representation;
-    if(hypothesis_matrix->rows != prepared_data.columns or hypothesis_matrix->columns != 1){
+    if (hypothesis_matrix->rows != prepared_data.columns or hypothesis_matrix->columns != 1) {
         createHypothesis(prepared_data);
     }
     //will stick to gradient descent for now
@@ -45,18 +45,18 @@ int Regression::numberOfParameters() const {
 
 Matrix Regression::prepareData(const Data &data) const {
     if (polynomial_degree == 0) {
-        return Matrix(data.matrix_representation->rows, 1, 1, 1);
+        return Matrix(data.records, 1, 1, 1);
     }
     if (polynomial_degree == 1) {
-        return Matrix::HorizontalStack(*data.matrix_representation, Matrix(data.matrix_representation->rows, 1, 1, 1));
+        return Matrix::HorizontalStack(*data.matrix_representation, Matrix(data.records, 1, 1, 1));
     }
-    Matrix answer(data.matrix_representation->rows, data.matrix_representation->columns * polynomial_degree + 1);
+    Matrix answer(data.records, data.variables * polynomial_degree + 1);
 
     for (int i = 1; i <= polynomial_degree; i++) {
-        answer.PasteIntoInPlace((*data.matrix_representation) ^ i, 0, (i - 1) * (data.matrix_representation->columns));
+        answer.PasteIntoInPlace((*data.matrix_representation) ^ i, 0, (i - 1) * (data.variables));
     }
-    answer.PasteIntoInPlace(Matrix(data.matrix_representation->rows, 1), 0,
-                            polynomial_degree * data.matrix_representation->columns);
+    answer.PasteIntoInPlace(Matrix(data.records, 1), 0,
+                            polynomial_degree * data.variables);
     return answer;
 }
 
@@ -76,9 +76,9 @@ void Regression::read(std::istream &is) {
     hypothesis_matrix = new Matrix(is);
 }
 
-void Regression::test(const Data &data,const Data &label) const {
+void Regression::test(const Data &data, const Data &label) const {
     Matrix guess = predict(data);
-    std::cout<<std::fixed<<cost(guess, (*label.matrix_representation))<<'\n';
+    std::cout << std::fixed << cost(guess, (*label.matrix_representation)) << '\n';
 }
 
 

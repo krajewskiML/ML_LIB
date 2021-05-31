@@ -16,8 +16,10 @@ void regressionTest(){
     a.fit(data, labels, 0.000003, 1000);
     a.test(data, labels);
 }
+void logisticRegressionTest(){
+
+}
 
 int main() {
-    regressionTest();
     return 0;
 }

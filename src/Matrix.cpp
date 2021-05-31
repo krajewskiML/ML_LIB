@@ -288,7 +288,7 @@ void Matrix::writeDimensions(std::ostream &os) {
     os << rows << ' ' << columns << '\n';
 }
 
-Matrix &Matrix::operator=(const Matrix &other) {
+Matrix Matrix::operator=(const Matrix &other) {
     if (this != &other) {
         free();
         copy(other);
@@ -311,6 +311,18 @@ Matrix Matrix::operator*(double scalar) const {
 Matrix Matrix::operator-(const Matrix &substracted) const {
     return subtract(*this, substracted);
 }
+
+Matrix Matrix::operator-(const double &substracted) const {
+    Matrix answer(*this);
+    int i, j;
+    for(i=0; i<answer.rows; i++){
+        for(j=0; j<answer.columns; j++){
+            answer(i,j)-=substracted;
+        }
+    }
+    return answer;
+}
+
 
 Matrix Matrix::operator^(double scalar) {
     Matrix answer(*this);
@@ -399,6 +411,7 @@ void Matrix::move(Matrix &other) {
 Matrix::~Matrix() {
     free();
 }
+
 
 
 

@@ -29,7 +29,7 @@ void LogisticRegression::gradientDescent(const Matrix &data, const Matrix &label
 }
 
 double LogisticRegression::cost(const Matrix &guess, const Matrix &labels) const {
-    return 0;
+    return ((labels.transposed()*Matrix::ApplyFunction(guess, std::log))+((labels-1)*(-1)).transposed()*Matrix::ApplyFunction((guess-1)*(-1), std::log)).sum();
 }
 
 Matrix LogisticRegression::applyActivationFunction(const Matrix &after_hypothesis) {

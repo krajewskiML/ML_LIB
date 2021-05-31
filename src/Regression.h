@@ -10,6 +10,7 @@
 
 class Regression : public SupervisedModel {
 
+    /// Regression class is a model that
 
 public:
     Regression(int _polynomial_degree);

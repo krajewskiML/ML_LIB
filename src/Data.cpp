@@ -32,6 +32,8 @@ void Data::readData(std::istream &csv_file) {
 Data::Data(std::istream &file) {
     readHeaders(file);
     readData(file);
+    records = matrix_representation->rows;
+    variables = matrix_representation->columns;
 }
 
 Data::~Data() {
@@ -51,7 +53,7 @@ Matrix Data::labelsToMatrix() const{
     int num_of_classes = matrix_representation->maxValue();
     Matrix labelsMatrix(records, num_of_classes+1);
     for(int i=0; i<records; i++){
-        labelsMatrix(i,(int)matrix_representation->matrix[i][0])=1;
+        labelsMatrix(i,(bool)matrix_representation->matrix[i][0])=1;
     }
     return labelsMatrix;
 }

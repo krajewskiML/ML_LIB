@@ -10,7 +10,9 @@
 #include <iostream>
 #include "mathFunctions.h"
 class Model {
+    /// Interface class for all algorithms
 public:
+
     virtual void show(std::ostream &out=std::cout) const = 0;
 
     virtual void save(std::ostream &out) const = 0; //maybe h5 format

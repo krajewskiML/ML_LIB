@@ -97,7 +97,7 @@ public:
     void writeDimensions(std::ostream &os = std::cout);
 
     //overloaded assign operator
-    Matrix &operator=(const Matrix &other);
+    Matrix operator=(const Matrix &other);
 
     //overloaded matrix multiplying operator
     Matrix operator*(const Matrix &multiplied_by) const;
@@ -107,6 +107,9 @@ public:
 
     //overloaded minus operator
     Matrix operator-(const Matrix &substracted) const;
+
+    //overloaded minus operator for scalar subtraction
+    Matrix operator-(const double &substracted) const;
 
     //overloaded multiplying by scalar
     Matrix operator*(double scalar) const;
